@@ -1,0 +1,37 @@
+{
+	"name": "korean-sentiment-analyzer",
+	"version": "0.0.1",
+	"description": "한국어 감성 분석기",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"dependencies": {
+		"lodash": "4.x",
+		"moment": "2.x",
+		"deasync": "0.1.x",
+		"regexp.escape": "1.0.x",
+		"ls": "0.2.x"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/mrlee23/KoreanSentimentAnalyzer.git"
+	},
+	"keywords": [
+		"korean",
+		"morpheme",
+		"analyzer",
+		"sentiment"
+	],
+	"preferGlobal": true,
+	"bin": {
+		"ksa-client": "analyzer.js",
+		"ksa-server": "morphemeServer.py"
+	},
+	"author": "LeeDongSoo <mrlee_23@naver.com>",
+	"license": "GPL-3.0",
+	"bugs": {
+		"url": "https://github.com/mrlee23/KoreanSentimentAnalyzer/issues"
+	},
+	"homepage": "https://github.com/mrlee23/KoreanSentimentAnalyzer#readme"
+}

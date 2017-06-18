@@ -1,0 +1,40 @@
+#+TITLE: 한국어 감성 분석기
+
+* 개요
+
+이 패키지는 [[http://kkma.snu.ac.kr/][꼬꼬마 한글 형태소 분석기]]와 [[http://word.snu.ac.kr/kosac][KOSAC(Korean Sentiment Analysis Corpus)]]의 감성사전 데이터를 이용한 한국어 감성 분석기이다.
+형태소 분석을 위해 파이썬으로 구현된 [[https://github.com/konlpy/konlpy][KoNLPy]] 패키지를 이용하였다.
+
+감성사전은 [[http://word.snu.ac.kr/kosac/data/lexicon.zip][여기서]] 다운받을 수 있다.
+
+* 사용된 패키지
+- [[https://github.com/konlpy/konlpy][KoNLPy]] :: 꼬꼬마 형태소 분석기 서버를 구성하기 위해서 사용된 패키지이다. 이 패키지는 Hannanum, Kkma, Komoran, Mecab, Twitter 등의 형태소 분석기를 지원한다.
+
+* 구동 방식
+- 형태소 분석기(morphemeServer.py) :: 처음 실행 후 사전을 불러오는 시간이 많이 필요하므로 형태소 분석기 서버를 만들어 요청이 왔을 때 최초 1번 사전을 불러온 후 다음 요청 부터는 로드된 사전 데이터를 이용한다.
+- 감성 분석기(sentiment.js) :: [[http://word.snu.ac.kr/kosac][KOSAC]]에서 제공하는 plarity.csv 데이터를 이용해서 감성분석을 한다. 해당 데이터를 로드한 후 한글 텍스트를 형태소 분석기로 파싱한 후 감성 사전에 해당하는 감성 데이터를 가져온다.
+- 트위터 감성 분석기(analyzer.js) :: [[https://github.com/mrlee23/SimpleTwitterScraper][SimpleTwitterScraper]] 패키지를 이용해 트윗 데이터를 다운로드 하고 해당 파일을 data/YYYY-MM-DD.json 로 저장한 후 감성분석을 시행한 결과를 results/YYYY-MM-DD.json 에 저장한다.
+
+* 사용 방법
+
+** 설치
+	#+BEGIN_SRC sh
+npm install -g korean-sentiment-analyzer
+	#+END_SRC
+
+** 형태소 분석기 서버 실행
+
+konlpy 패키지를 설치한 후 형태소 분석기 실행 (python 3.x 버전에서 테스트 완료 하였음)
+#+NAME: sh_SRC
+	#+BEGIN_SRC sh
+pip3 install konlpy
+ksa-server localhost 7000
+	#+END_SRC
+
+** 트위터 감성 분석 실행
+
+#+NAME: sh_SRC
+	#+BEGIN_SRC sh
+pip install konlpy
+ksa-client localhost 7000 2017-01-01 2017-02-01 ./sourceDir ./targetDir
+	#+END_SRC
