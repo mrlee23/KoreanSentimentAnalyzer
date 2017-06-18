@@ -5,15 +5,29 @@
 이 패키지는 [[http://kkma.snu.ac.kr/][꼬꼬마 한글 형태소 분석기]]와 [[http://word.snu.ac.kr/kosac][KOSAC(Korean Sentiment Analysis Corpus)]]의 감성사전 데이터를 이용한 한국어 감성 분석기이다.
 형태소 분석을 위해 파이썬으로 구현된 [[https://github.com/konlpy/konlpy][KoNLPy]] 패키지를 이용하였다.
 
+[[https://github.com/mrlee23/SimpleTwitterScraper][SimpleTwitterScraper]] 패키지를 이용해 트위터 데이터를 수집한 후 형태소 분석, 감성 분석 후에 마지막으로 R을 이용해 해당 데이터의 감성 추세 그래프를 그린다.
+
 감성사전은 [[http://word.snu.ac.kr/kosac/data/lexicon.zip][여기서]] 다운받을 수 있다.
 
 * 사용된 패키지
 - [[https://github.com/konlpy/konlpy][KoNLPy]] :: 꼬꼬마 형태소 분석기 서버를 구성하기 위해서 사용된 패키지이다. 이 패키지는 Hannanum, Kkma, Komoran, Mecab, Twitter 등의 형태소 분석기를 지원한다.
 
-* 구동 방식
+* 모듈 설명
 - 형태소 분석기(morphemeServer.py) :: 처음 실행 후 사전을 불러오는 시간이 많이 필요하므로 형태소 분석기 서버를 만들어 요청이 왔을 때 최초 1번 사전을 불러온 후 다음 요청 부터는 로드된 사전 데이터를 이용한다.
 - 감성 분석기(sentiment.js) :: [[http://word.snu.ac.kr/kosac][KOSAC]]에서 제공하는 plarity.csv 데이터를 이용해서 감성분석을 한다. 해당 데이터를 로드한 후 한글 텍스트를 형태소 분석기로 파싱한 후 감성 사전에 해당하는 감성 데이터를 가져온다.
 - 트위터 감성 분석기(analyzer.js) :: [[https://github.com/mrlee23/SimpleTwitterScraper][SimpleTwitterScraper]] 패키지를 이용해 트윗 데이터를 다운로드 하고 해당 파일을 data/YYYY-MM-DD.json 로 저장한 후 감성분석을 시행한 결과를 results/YYYY-MM-DD.json 에 저장한다.
+
+* 구동 순서 및 결과
+
+** 구동 순서
+1. 트위터 데이터 수집(SimpleTwitterScraper 사용)
+2. 형태소 분석기 서버 실행
+3. 감성 분석기 실행
+4. 분석된 결과를 R을 이용해 그래프 그리기
+
+** 결과
+- 문재인 키워드의 감성 추세를 나타내는 [[./sentiment_2017.png][sentiment]] 그래프
+- 문재인 키워드의 이슈 정도를 나타낸 [[./issue_2017.png][issue]] 그래프
 
 * 사용 방법
 
@@ -38,3 +52,14 @@ ksa-server localhost 7000
 pip install konlpy
 ksa-client localhost 7000 2017-01-01 2017-02-01 ./sourceDir ./targetDir
 	#+END_SRC
+
+- localhost : 서버 호스트 이름.
+- 7000 : 서버 포트 번호.
+- 2017-01-01 : 시작 날짜
+- 2017-02-01 : 끝나는 날짜
+- ./sourceDir : 날짜별 트윗 데이터(YYYY-MM-DD.json)가 있는 디렉토리 위치 (날짜별 트윗 데이터 수집 방법 참조)
+- ./targetDir : ./sourceDir 의 트윗 데이터를 감성 분석한 후 감성 데이터와 함께 저장되는 파일의 디렉토리 위치.(파일명 동일)
+
+* 날짜별 트윗 데이터 수집 방법
+
+이 패키지는 [[https://github.com/mrlee23/SimpleTwitterScraper][SimpleTwitterScraper]] 으로 수집한 트윗 데이터를 필요로 한다. 데이터 구조와 실행 방법은 해당 패키지 참조.
