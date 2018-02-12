@@ -31,7 +31,17 @@
 
 * 사용 방법
 
+** 설치 전 필요사항
+- npm : 본 패키지를 설치하기 위해 필요. ([[http://linux-command.org/node.html][설치 방법]])
+- python : KoNLPy를 실행하기 위해 필요.
+- pip3 : konlpy, JPype1을 설치하기 위해 필요. ([[http://linux-command.org/pip.html][설치 방법]])
+- jdk8 : Kkma 형태소 분석기를 실행시키기 위해 필요. (자바로 구현되어 있음)
+  - 다운로드
+	- http://www.oracle.com/technetwork/java/javase/downloads/index.html
+	- http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+
 ** 설치
+
 	#+BEGIN_SRC sh
 npm install -g korean-sentiment-analyzer
 	#+END_SRC
@@ -39,6 +49,9 @@ npm install -g korean-sentiment-analyzer
 ** 형태소 분석기 서버 실행
 
 konlpy 패키지를 설치한 후 형태소 분석기 실행 (python 3.x 버전에서 테스트 완료 하였음)
+
+형태소 분석기는 처음 실행 시 형태소 데이터를 가져오는 시간이 많이 걸리기 때문에 한번 구동 후 계속 사용할 수 있도록 서버-클라이언트 구조로 구현하였다.
+
 #+NAME: sh_SRC
 	#+BEGIN_SRC sh
 pip3 install konlpy
@@ -49,7 +62,8 @@ ksa-server localhost 7000
 
 #+NAME: sh_SRC
 	#+BEGIN_SRC sh
-pip install konlpy
+pip3 install konlpy
+pip3 install JPype1
 ksa-client localhost 7000 2017-01-01 2017-02-01 ./sourceDir ./targetDir
 	#+END_SRC
 
@@ -62,4 +76,4 @@ ksa-client localhost 7000 2017-01-01 2017-02-01 ./sourceDir ./targetDir
 
 * 날짜별 트윗 데이터 수집 방법
 
-이 패키지는 [[https://github.com/mrlee23/SimpleTwitterScraper][SimpleTwitterScraper]] 으로 수집한 트윗 데이터를 필요로 한다. 데이터 구조와 실행 방법은 해당 패키지 참조.
+이 패키지는 [[https://github.com/mrlee23/SimpleTwitterScraper][SimpleTwitterScraper]] 으로 수집한 트윗 데이터를 필요로 한다. 수집 트위터 데이터 구조와 실행 방법은 해당 패키지 참조.
